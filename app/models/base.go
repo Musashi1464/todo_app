@@ -28,7 +28,7 @@ const (
 */
 
 func init() {
-	url := os.Getenv("DATEBASE_URL") // herokuの環境変数の値を取り出せる. herokuのpostgresのurlが入る
+	url := os.Getenv("DATABASE_URL") // herokuの環境変数の値を取り出せる. herokuのpostgresのurlが入る
 	connection, _ := pq.ParseURL(url)
 	connection += "sslmode=require"
 	Db, err = sql.Open(config.Config.SQLDriver, connection)
