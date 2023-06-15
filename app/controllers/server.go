@@ -4,11 +4,10 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
-	"os"
 	"regexp"
 	"strconv"
-	"todo_app_heroku/app/models"
-	"todo_app_heroku/config"
+	"todo_app/app/models"
+	"todo_app/config"
 )
 
 func generateHTML(w http.ResponseWriter, data interface{}, filenames ...string) {
@@ -72,6 +71,7 @@ func StartMainServer() error {
 	http.HandleFunc("/todos/update/", parseURL(todoUpdate))
 	http.HandleFunc("/todos/delete/", parseURL(todoDelete))
 
-	port := os.Getenv("PORT")
-	return http.ListenAndServe(":"+port, nil)
+	// port := os.Getenv("PORT")
+	// return http.ListenAndServe(":"+port, nil)
+	return http.ListenAndServe(":"+config.Config.Port, nil)
 }

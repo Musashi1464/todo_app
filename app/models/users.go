@@ -31,7 +31,7 @@ func (u *User) CreateUser() (err error) { // ユーザーの作成
 		name,
 		email,
 		password,
-		created_at) values ($1, $2, $3, $4, $5)`
+		created_at) values (?, ?, ?, ?, ?)`
 
 	_, err = Db.Exec(cmd,
 		createUUID(),
@@ -50,7 +50,7 @@ func (u *User) CreateUser() (err error) { // ユーザーの作成
 func GetUser(id int) (user User, err error) { // ユーザーIDからユーザー情報を取得
 	user = User{}
 	cmd := `select id, uuid, name, email, password, created_at
-	from users where id = $1`
+	from users where id = ?`
 	err = Db.QueryRow(cmd, id).Scan(
 		&user.ID,
 		&user.UUID,
@@ -63,7 +63,7 @@ func GetUser(id int) (user User, err error) { // ユーザーIDからユーザ�
 }
 
 func (u *User) UpdateUser() (err error) { // ユーザー情報の更新
-	cmd := `update users set name = $1, email = $2 where id = $3`
+	cmd := `update users set name = ?, email = ? where id = ?`
 	_, err = Db.Exec(cmd, u.Name, u.Email, u.ID)
 	if err != nil {
 		log.Fatalln(err)
@@ -72,7 +72,7 @@ func (u *User) UpdateUser() (err error) { // ユーザー情報の更新
 }
 
 func (u *User) DeleteUser() (err error) {
-	cmd := `delete from users where id = $1`
+	cmd := `delete from users where id = ?`
 	_, err = Db.Exec(cmd, u.ID)
 	if err != nil {
 		log.Fatalln(err)
@@ -83,7 +83,7 @@ func (u *User) DeleteUser() (err error) {
 func GetUserByEmail(email string) (user User, err error) {
 	user = User{}
 	cmd := `select id, uuid, name, email, password, created_at
-	from users where email = $1`
+	from users where email = ?`
 	err = Db.QueryRow(cmd, email).Scan(
 		&user.ID,
 		&user.UUID,
@@ -101,7 +101,7 @@ func (u *User) CreateSession() (session Session, err error) {
 		uuid,
 		email,
 		user_id,
-		created_at) values ($1, $2, $3, $4)`
+		created_at) values (?, ?, ?, ?)`
 
 	_, err = Db.Exec(cmd1, createUUID(), u.Email, u.ID, time.Now())
 	if err != nil {
@@ -109,7 +109,7 @@ func (u *User) CreateSession() (session Session, err error) {
 	}
 
 	cmd2 := `select id, uuid, email, user_id, created_at
-	 from sessions where user_id = $1 and email = $2`
+	 from sessions where user_id = ? and email = ?`
 
 	err = Db.QueryRow(cmd2, u.ID, u.Email).Scan(
 		&session.ID,
@@ -123,7 +123,7 @@ func (u *User) CreateSession() (session Session, err error) {
 
 func (sess *Session) CheckSession() (valid bool, err error) {
 	cmd := `select id, uuid, email, user_id, created_at
-	 from sessions where uuid = $1`
+	 from sessions where uuid = ?`
 
 	err = Db.QueryRow(cmd, sess.UUID).Scan(
 		&sess.ID,
@@ -143,7 +143,7 @@ func (sess *Session) CheckSession() (valid bool, err error) {
 }
 
 func (sess *Session) DeleteSessionByUUID() (err error) {
-	cmd := `delete from sessions where uuid = $1`
+	cmd := `delete from sessions where uuid = ?`
 	_, err = Db.Exec(cmd, sess.UUID)
 	if err != nil {
 		log.Fatalln(err)
@@ -154,7 +154,7 @@ func (sess *Session) DeleteSessionByUUID() (err error) {
 func (sess *Session) GetUserBySession() (user User, err error) {
 	user = User{}
 	cmd := `select id, uuid, name, email, created_at from users
-	where id = $1`
+	where id = ?`
 	err = Db.QueryRow(cmd, sess.UserID).Scan(
 		&user.ID,
 		&user.UUID,

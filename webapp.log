@@ -1,0 +1,15 @@
+2023/06/15 16:22:05 users.go:45: Error 1146 (42S02): Table 'test_db.users' doesn't exist
+2023/06/15 16:36:12 users.go:45: Error 1146 (42S02): Table 'test_db.users' doesn't exist
+2023/06/15 16:38:31 base.go:43: Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AUTOINCREMENT,
+			uuid VARCHAR(100) NOT NULL UNIQUE,
+			name VARCHAR(100),
+			em' at line 2
+2023/06/15 16:39:16 base.go:43: Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AUTOINCREMENT,
+			uuid VARCHAR(100) NOT NULL UNIQUE,
+			name VARCHAR(100),
+			em' at line 2
+2023/06/15 16:39:34 users.go:45: Error 1054 (42S22): Unknown column '$1' in 'field list'
+2023/06/15 16:41:34 users.go:45: Error 1054 (42S22): Unknown column '$1' in 'field list'
+2023/06/15 16:47:05 route_auth.go:48: sql: Scan error on column index 5, name "created_at": unsupported Scan, storing driver.Value type []uint8 into type *time.Time
+2023/06/15 16:47:05 route_auth.go:54: sql: Scan error on column index 4, name "created_at": unsupported Scan, storing driver.Value type []uint8 into type *time.Time
+2023/06/15 16:47:05 server.go:3197: http: superfluous response.WriteHeader call from todo_app/app/controllers.authenticate (route_auth.go:64)
